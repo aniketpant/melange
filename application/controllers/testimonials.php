@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class testimonials extends CI_Controller {
-   
+ 
   function __construct() {
     parent::__construct();
     if ($this->session->userdata('logged_in') == TRUE)
@@ -15,7 +15,7 @@ class testimonials extends CI_Controller {
     $this->load->model('settings_model', 'settings');
     $this->session->set_userdata(array('admin_controls' => FALSE, 'site_name' => $this->settings->get_site_name()));
   }
-        
+  
   public function add_testimonial($to_id)
   {    
     if ($this->session->userdata('login_flag') == 1)
@@ -26,10 +26,10 @@ class testimonials extends CI_Controller {
       $user_id = $this->user->get_userdetails_id($user_name);
       $testimonial_content = $this->input->post('testimonial_content');
       $data = array(
-          'content'           => $testimonial_content,
-          'testimonial_for'   => $to_id,
-          'testimonial_by'    => $user_id
-      );
+        'content'           => $testimonial_content,
+        'testimonial_for'   => $to_id,
+        'testimonial_by'    => $user_id
+        );
       $this->testimonial->add_testimonial($data);
       redirect('user/profile/'.$to_id, 'location');
     }
@@ -38,7 +38,7 @@ class testimonials extends CI_Controller {
       redirect('main/login', 'location');
     }       
   }
-        
+  
   public function make_public($testimonial_id)
   { 
     if ($this->session->userdata('login_flag') == 1)
@@ -55,7 +55,7 @@ class testimonials extends CI_Controller {
       redirect('main/login', 'location');
     }     
   }
-        
+  
   public function make_private($testimonial_id)
   { 
     if ($this->session->userdata('login_flag') == 1)
@@ -69,10 +69,10 @@ class testimonials extends CI_Controller {
     }
     else
     {
-        redirect('main/login', 'location');
+      redirect('main/login', 'location');
     }
   }
-        
+  
   public function delete_testimonial($testimonial_id) 
   {
     if ($this->session->userdata('login_flag') == 1)

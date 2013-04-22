@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class user extends CI_Controller {
-   
+ 
   function __construct()
   {
     parent::__construct();
@@ -24,7 +24,7 @@ class user extends CI_Controller {
   {       
     redirect('user/dashboard', 'location');
   }
-        
+  
   public function dashboard()
   {
     if ($this->session->userdata('login_flag') == 1 || $this->session->userdata('login_flag') == 2)
@@ -38,9 +38,9 @@ class user extends CI_Controller {
       $user_details = $this->user->get_userdetails($user_name);
       $data['user_details'] = $user_details;
       if ($user_name == 'guest')
-          $data['guest_account_flag'] = TRUE;
+        $data['guest_account_flag'] = TRUE;
       else
-          $data['guest_account_flag'] = FALSE;
+        $data['guest_account_flag'] = FALSE;
       $this->load->view('user/dashboard', $data);
     }
     else
@@ -48,7 +48,7 @@ class user extends CI_Controller {
       redirect('main/login', 'location');
     }
   }
-        
+  
   public function edit_profile()
   {
     if ($this->session->userdata('login_flag') == 1)
@@ -86,13 +86,13 @@ class user extends CI_Controller {
         $data['month'] = 'January';
         $data['year'] = 1991;
       }
-        
+      
       $data['hostel'] = $user_details->hostel;
       $data['roomno'] = $user_details->roomno;
       $data['address'] = $user_details->address;
       $data['contact'] = $user_details->contact;
       $data['email'] = $user_details->email;
-        
+      
       if ($this->form_validation->run('user/profile') == FALSE)
       {
         $this->load->view('user/edit_profile', $data);
@@ -144,7 +144,7 @@ class user extends CI_Controller {
           $arr_userdetails['email'] = $email;
         else
           $arr_userdetails['email'] = NULL;
-            
+        
         /*
          * Image Uploading
          */
@@ -193,7 +193,7 @@ class user extends CI_Controller {
       redirect('main/login', 'location');
     }   
   }
-        
+  
   public function your_testimonials()
   {
     if ($this->session->userdata('login_flag') == 1 || $this->session->userdata('login_flag') == 2)
@@ -210,14 +210,14 @@ class user extends CI_Controller {
     }
     else if ($this->session->userdata('login_flag') == 2)
     {
-        redirect('main/dashboard', 'location');
+      redirect('main/dashboard', 'location');
     }
     else
     {
-        redirect('main/login', 'location');
+      redirect('main/login', 'location');
     }
   }
-        
+  
   public function search() {     
     if ($this->session->userdata('login_flag') == 1 || $this->session->userdata('login_flag') == 2)
     {
@@ -243,7 +243,7 @@ class user extends CI_Controller {
       redirect('main/login', 'location');
     }         
   }
-        
+  
   public function profile($query)
   {
     if ($this->session->userdata('login_flag') == 1 || $this->session->userdata('login_flag') == 2) {
@@ -270,7 +270,7 @@ class user extends CI_Controller {
       redirect('main/login', 'location');
     }
   }
-        
+  
   public function verify($verification_key)
   {
     $this->load->model('user_model', 'user');
@@ -286,7 +286,7 @@ class user extends CI_Controller {
       $this->load->view('messages/account_verification_problem', $data);
     }
   }
-        
+  
   public function change_password()
   {      
     if ($this->session->userdata('login_flag') == 1)

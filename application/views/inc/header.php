@@ -1,39 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-        <title><?php echo $page_title; ?> &mdash; <?php echo $this->session->userdata('site_name'); ?></title>
-        
-        <link rel="icon" type="favicon" href="<?php echo base_url(); ?>public/img/favicon.ico"/>
-        
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>public/css/bootstrap.min.css" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>public/css/font-awesome.css" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>public/css/inuit.css" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>public/css/style.css" rel="stylesheet" />
-        
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic' rel='stylesheet' type='text/css'>
-        <link href='http://fonts.googleapis.com/css?family=Crimson+Text:700,400' rel='stylesheet' type='text/css'>
-        
-        <script src="<?php echo base_url(); ?>public/js/jquery.js" type="text/javascript"></script>
-        <script src="<?php echo base_url(); ?>public/js/humanize.min.js" type="text/javascript"></script>
-        <script src="<?php echo base_url(); ?>public/js/prefixfree.min.js" type="text/javascript"></script>
-        <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js" type="text/javascript"></script>
-        
+  <meta charset="utf-8">
+  <title><?php echo $page_title; ?> &mdash; <?php echo $this->session->userdata('site_name'); ?></title>
+  
+  <link rel="icon" type="favicon" href="<?php echo base_url(); ?>public/img/favicon.ico"/>
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>public/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>public/css/font-awesome.min.css">
+  <!--[if IE 7]>
+  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css">
+  <![endif]-->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>public/css/style.css" rel="stylesheet" />
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Crimson+Text:700,400' rel='stylesheet' type='text/css'>
+  <script src="<?php echo base_url(); ?>public/js/jquery.js" type="text/javascript"></script>
+  <script src="<?php echo base_url(); ?>public/js/humanize.min.js" type="text/javascript"></script>
+  <script src="<?php echo base_url(); ?>public/js/bootstrap.min.js" type="text/javascript"></script>
 </head>
 
 <body>
-    
-    <div class="container">
-        
-        <header id="header" class="row" role="banner">
-            <a href="<?php echo site_url(); ?>"><img id="logo" src="" alt="<?php echo $this->session->userdata('site_name'); ?>" /></a>
-        </header>
-
-        <div class="row">
-            
-            <nav id="navbar" class="span3" role="navigation">
-                <?php include 'navigation.php'; ?>
-            </nav>
-
-            <article id="content" class="span6" role="content">
-        
+  <div class="container">
+    <header class="row" role="banner">
+      <div class="span4">
+        <h1><a href="<?php echo site_url(); ?>"><?php echo $this->session->userdata('site_name'); ?></a></h1>
+      </div>
+      <div class="span8">
+        <nav class="navbar" role="navigation">
+          <?php include 'navigation.php'; ?>
+        </nav>
+      </div>
+    </header>
+    <div class="row">
+      <article class="span12 content" role="content">

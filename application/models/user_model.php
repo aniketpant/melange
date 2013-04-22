@@ -24,8 +24,7 @@ class User_model extends CI_Model {
   {
     $id = $this->get_user_id($user_name);
     $result = $this->db->get_where('user_roles', array('user_master_iduser_roles' => $id));
-    $user_role = $result->first_row()->user_role;
-    return $user_role;
+    return $result->num_rows()?$result->first_row()->user_role:1;
   }
 
   function generate_userdetails($user_name, $data = array())

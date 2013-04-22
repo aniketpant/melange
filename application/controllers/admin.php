@@ -1,27 +1,28 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
-   
+ 
   function __construct()
   { 
     parent::__construct();
     if ($this->session->userdata('is_admin') == TRUE && $this->session->userdata('logged_in') == TRUE) {
-        $this->session->set_userdata(array('login_flag' => 1));
+      $this->session->set_userdata(array('login_flag' => 1));
     }
     else
     {
-        $this->session->set_userdata(array('login_flag' => 0));
+      $this->session->set_userdata(array('login_flag' => 0));
     }
     $this->load->model('settings_model', 'settings');
     $this->session->set_userdata(array('admin_controls' => TRUE, 'site_name' => $this->settings->get_site_name()));      
   }
 
   public function index()
-  {       
+  {
+    $this->output->cache(3600);
     $data['page_title'] = 'Admin Controls';
     $this->load->view('admin/main', $data);           
   }
-        
+  
   public function login()
   {         
     if ($this->session->userdata('login_flag')) {
@@ -48,8 +49,8 @@ class Admin extends CI_Controller {
         
         if (!$check_val)
         {
-            $data['error'] = 'Incorrect username or password. Please try again.';
-            $this->load->view('admin/login', $data);
+          $data['error'] = 'Incorrect username or password. Please try again.';
+          $this->load->view('admin/login', $data);
         }                        
         else
         {
@@ -57,19 +58,19 @@ class Admin extends CI_Controller {
           $user_role = $this->user->get_user_role($user_name);
           if ($user_role == 2 || $user_role == 3)
           {
-              $this->session->set_userdata(array('logged_in' => TRUE, 'is_admin' => TRUE));
-              redirect('admin/dashboard', 'location');
+            $this->session->set_userdata(array('logged_in' => TRUE, 'is_admin' => TRUE));
+            redirect('admin/dashboard', 'location');
           }
           else
           {
-              $this->session->set_userdata(array('logged_in' => FALSE, 'is_admin' => FALSE));
-              $this->load->view('admin/login', $data);
+            $this->session->set_userdata(array('logged_in' => FALSE, 'is_admin' => FALSE));
+            $this->load->view('admin/login', $data);
           }
         }
       }
     }              
   }
-        
+  
   public function dashboard()
   {  
     if ($this->session->userdata('login_flag')) {
@@ -82,8 +83,8 @@ class Admin extends CI_Controller {
     else {
       redirect('404', 'location');
     }                
-}
-        
+  }
+  
   public function settings()
   { 
     if ($this->session->userdata('login_flag'))
@@ -114,85 +115,101 @@ class Admin extends CI_Controller {
       redirect('404', 'location');
     }
   }
-        
+  
   public function export($type) {
     if ($this->session->userdata('login_flag'))
     {
-        $this->load->model('admin_model', 'admin');
-        $this->admin->export_data($type);
+      $this->load->model('admin_model', 'admin');
+      $this->admin->export_data($type);
     }
     else
     {
-        redirect('404', 'location');
+      redirect('404', 'location');
     }     
   }
-        
-  public function make_admin()
+  
+  public function make_admin($user_name)
   {          
     if ($this->session->userdata('login_flag')) {
       $data['page_title'] = 'Make Admin';
       $this->load->model('admin_model', 'admin');
-      $data['error'] = NULL;
-      $data['site_name'] = $this->settings->get_site_name();
-      $data['year'] = $this->settings->get_year();
-      $this->load->view('admin/make_admin', $data);
-      
-      $user_name = $this->input->post('user_name');
       $this->load->model('user_model', 'user');
       $id = $this->user->get_user_id($user_name);
       $this->admin->make_admin($id);
-      
-      redirect('admin/dashboard', 'location');
+      $data['user_name'] = $user_name;
+      $this->load->view('admin/make_admin', $data);
+    }
+    else
+    {
+      redirect('404', 'location');
+    }          
+  }
+  
+  public function reset_password($user_name)
+  {          
+    if ($this->session->userdata('login_flag')) {
+      $data['page_title'] = 'Password Reset';
+      $this->load->model('user_model', 'user');
+      if (isset($user_name))
+      {
+        $this->load->model('user_model', 'user');
+        $user_pass = $this->user->get_random_password();
+        $this->simpleloginsecure->new_password($user_name, $user_pass);
+        $data['user_name'] = $user_name;
+        $data['user_pass'] = $user_pass;
+        $this->load->view('admin/password_reset', $data);
+      }
+      else
+      {
+        redirect('admin/dashboard', 'location');
+      }
     }
     else {
       redirect('404', 'location');
     }          
   }
-        
+  
   public function create_guest_account()
   {
     if ($this->session->userdata('login_flag'))
     {
-        $this->load->model('user_model', 'user');
-        $user_name = 'guest';
-        $password = 'password';
-        $this->simpleloginsecure->create($user_name, $password, FALSE);
-        $this->user->generate_verification_key($user_name);
-        $verification_key = $this->user->get_verification_key($user_name);
-        $arr_userdetails = array(
-            'id_number' => 'Guest',
-            'name' => 'Guest',
-            'nick' => 'guest',
-            'dob' => '29 February 1991',
-            'hostel' => 'AH9',
-            'roomno' => '000',
-            'address' => 'Your mom\'s house',
-            'contact' => '9876543210',
-            'email' => 'guest@guest.com'
+      $this->load->model('user_model', 'user');
+      $user_name = 'guest';
+      $password = 'password';
+      $this->simpleloginsecure->create($user_name, $password, FALSE);
+      $arr_userdetails = array(
+        'id_number' => 'Guest',
+        'name' => 'Guest',
+        'nick' => 'guest',
+        'dob' => '29 February 1991',
+        'hostel' => 'AH9',
+        'roomno' => '000',
+        'address' => 'Your mom\'s house',
+        'contact' => '9876543210',
+        'email' => 'guest@guest.com'
         );
-        $this->user->generate_userdetails($user_name, $arr_userdetails);
-        $this->user->verify_account($verification_key);
-        
-        redirect('admin/dashboard', 'location');
+      $this->user->generate_userdetails($user_name, $arr_userdetails);
+      
+      redirect('admin/dashboard', 'location');
     }
     else
     {
-        redirect('404', 'location');
+      redirect('404', 'location');
     }
   }
-        
+  
   public function logout()
   {
     if ($this->session->userdata('login_flag'))
     {
-        $this->simpleloginsecure->logout();
-        $data['page_title'] = 'Logged Out';
-        $data['type'] = 'admin';
-        $this->load->view('messages/logged-out', $data);
+      $this->simpleloginsecure->logout();
+      $data['page_title'] = 'Logged Out';
+      $data['type'] = 'admin';
+      $this->load->view('messages/logged-out', $data);
     }
     else
     {
-        redirect('404', 'location');
+      redirect('404', 'location');
     }  
   }
   
