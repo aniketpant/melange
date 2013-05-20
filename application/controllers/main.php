@@ -13,7 +13,7 @@ class Main extends CI_Controller {
   {
     $this->output->cache(3600);
     $data['page_title'] = 'Home';
-    $this->load->view('standard/main', $data);       
+    $this->load->view('standard/main', $data);
   }
 
   public function login()
@@ -23,7 +23,7 @@ class Main extends CI_Controller {
       redirect('user', 'location');
     }
     else
-    {      
+    {
       $data['page_title'] = 'Login';
       $data['error'] = NULL;
 
@@ -65,7 +65,7 @@ class Main extends CI_Controller {
     {
       $this->load->view('standard/register', $data);
     }
-    else 
+    else
     {
       $user_name = $this->input->post('user_name');
       $password = $this->input->post('password');
@@ -105,6 +105,13 @@ class Main extends CI_Controller {
     $this->output->cache(3600);
     $data['page_title'] = 'Forgot Your Password';
     $this->load->view('standard/forgot_password', $data);
+  }
+
+  public function info()
+  {
+    $this->output->cache(3600);
+    $data['page_title'] = 'Information';
+    $this->load->view('standard/info', $data);
   }
 
 }

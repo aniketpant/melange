@@ -3,10 +3,13 @@
 <section>
 
   <div class="page-header"><h1>Dashboard <small>Welcome, <?php echo ($user_details->name)?$user_details->name:$this->session->userdata('user_name'); ?></small></h1></div>
-  
+
   <?php
   echo form_open('user/search', array('class' => 'form-search'));
   ?>
+  <div class="alert">
+    <p>Please <?php echo anchor('main/info', 'read this', array('target' => '_blank')) ?> before you start using the application.</p>
+  </div>
   <div class="input-append">
     <?php
     $arr_search = array(
@@ -24,12 +27,11 @@
       );
     echo form_button($arr_button);
     ?>
-    <p class="help-inline"><em>You can search by id number, nick or name</em></p>
   </div>
   <?php
   echo form_close();
   ?>
-  
+
   <?php if (!$guest_account_flag): ?>
   <div id="testimonial-approval">
     <h2>Testimonials for approval</h2>
