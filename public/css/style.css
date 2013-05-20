@@ -17,22 +17,7 @@ body {
 }
 
 .profile .name {
-  position: relative;
-  width: 100%;
-  opacity: 0;
-  transition: opacity 100ms linear;
-  background: #ccc;
-  background: rgba(0, 0, 0, 0.15);
-  color: #fff;
-  font-size: 2em;
   text-align: center;
-  bottom: 1.25em;
-  line-height: 1.25em;
-  text-decoration: none;
-  display: block;
-}
-.profile:hover .name {
-    opacity: 1;
 }
 
 ::selection {
