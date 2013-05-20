@@ -114,4 +114,10 @@ class Main extends CI_Controller {
     $this->load->view('standard/info', $data);
   }
 
+  public function changelog()
+  {
+    $this->output->cache(3600);
+    $data['page_title'] = 'Changelog';
+    $this->load->view('standard/changelog', $data);
+  }
 }
