@@ -1,9 +1,11 @@
 <?php include 'application/views/inc/header.php'; ?>
 
+<?php if ($user_details) { ?>
+
 <section>
 
   <div class="page-header"><h1><?php echo $user_details->name; ?> <small>User Profile</small></h1></div>
-  
+
   <div class="profile well">
 
     <?php if ($user_details->image_thumb) { ?>
@@ -11,7 +13,7 @@
       <img class="thumbnail" src="<?php echo site_url().'uploads/'.$user_details->image_thumb; ?>" alt="<?php echo $user_details->name.'\'s Photograph' ?>" />
     </figure>
     <?php } ?>
-    
+
     <dl>
       <dt>ID Number</dt>
       <dd><?php echo $user_details->id_number; ?></dd>
@@ -32,9 +34,9 @@
       <dt>Email</dt>
       <dd><?php echo $user_details->email; ?></dd>
     </dl>
-    
+
   </div>
-  
+
   <div id="testimonials">
     <?php if (empty($testimonials)) { ?>
     <p>No testimonials found. Be the first to write something.</p>
@@ -89,4 +91,12 @@
 
   </section>
 
-  <?php include 'application/views/inc/footer.php'; ?>
+  <?php } else { ?>
+  <div class="alert">
+    <p>Sorry, User does not exist.</p>
+    <p>Please search for someone else.</p>
+    <?php echo anchor('user/dashboard', 'Return to dashboard'); ?>
+  </div>
+  <?php } ?>
+
+<?php include 'application/views/inc/footer.php'; ?>

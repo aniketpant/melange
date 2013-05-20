@@ -13,8 +13,8 @@
   <div class="input-append">
     <?php
     $arr_search = array(
-      'name'          => 'searchQuery',
-      'id'            => 'searchQuery',
+      'name'          => 'query',
+      'id'            => 'query',
       'class'         => 'input-medium',
       'placeholder'   => 'Looking for someone'
       );

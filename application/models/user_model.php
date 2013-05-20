@@ -1,7 +1,7 @@
 <?php
 
 class User_model extends CI_Model {
-        
+
   function __construct()
   {
     parent::__construct();
@@ -62,19 +62,12 @@ class User_model extends CI_Model {
     $this->db->update('user_details', $data);
   }
 
-  function search_users($type, $query)
+  function search_users($query)
   {
-    if ($type == 'id')
-    {
-        $result = $this->db->get_where('user_details', array('user_master_iduser_details' => $query));
-    }
-    else
-    {
-        $this->db->like('id_number', $query);
-        $this->db->or_like('name', $query);
-        $this->db->or_like('nick', $query);
-        $result = $this->db->get('user_details');
-    }
+    $this->db->like('id_number', $query);
+    $this->db->or_like('name', $query);
+    $this->db->or_like('nick', $query);
+    $result = $this->db->get('user_details');
     return $result->result();
   }
 
@@ -133,20 +126,20 @@ class User_model extends CI_Model {
   function send_verification_mail($user_name)
   {
     $verification_key = $this->get_verification_key($user_name);
-    
+
     /*
      * Configure this part
      */
     $toemail = $user_name.'@bits-goa.ac.in';
-    
+
     $this->load->library('email');
-    
+
     $this->email->from('melange.09.yearbook@gmail.com', 'Melange 2009');
     $this->email->to($toemail);
     $this->email->reply_to('melange.09.yearbook@gmail.com', 'Melange 2009');
-    
+
     $message = 'Click the following link to confirm your registration.<br/><a href="'.site_url().'user/verify/'.$verification_key.'">'.site_url().'user/verify/'.$verification_key.'</a>';
-    
+
     $this->email->subject('Melange - Account Verification');
     $this->email->message($message);
 
@@ -159,15 +152,15 @@ class User_model extends CI_Model {
      * Configure this part
      */
     $toemail = $user_name.'@goa.bits-pilani.ac.in';
-    
+
     $this->load->library('email');
-    
+
     $this->email->from('melange.10.yearbook@gmail.com', 'Melange 2009');
     $this->email->to($toemail);
     $this->email->reply_to('melange.10.yearbook@gmail.com', 'Melange 2009');
-    
+
     $message = 'You had requested for a new password.<br/>Your new password is '.$password;
-    
+
     $this->email->subject('Melange - Forgot Password');
     $this->email->message($message);
 
@@ -190,19 +183,19 @@ class User_model extends CI_Model {
     $password = "";
     for($i=0; $i<$length; $i++)
     {
-      $current_letter = $use_upper_case ? (rand(0,1) ? strtoupper($selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))];            
+      $current_letter = $use_upper_case ? (rand(0,1) ? strtoupper($selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))]) : $selection[(rand() % strlen($selection))];
       $password .=  $current_letter;
-    }                
+    }
 
     return $password;
   }
 
   function export_user_data($user_id)
-  { 
+  {
     $this->load->helper('csv');
-    
+
     $result = $this->db->query('SELECT content, um2.user_name AS testimonial_by FROM user_master AS um1, user_master AS um2, testimonials, user_details AS ud1, user_details AS ud2 WHERE testimonial_for = ud1.iduser_details AND testimonial_by = ud2.iduser_details AND um1.iduser_master = ud1.user_master_iduser_details AND um2.iduser_master = ud2.user_master_iduser_details AND testimonial_for = '.$user_id);
-    echo query_to_csv($result, TRUE, 'melange_testimonials_'.date('d_m_Y').'.csv'); 
+    echo query_to_csv($result, TRUE, 'melange_testimonials_'.date('d_m_Y').'.csv');
   }
 
 }

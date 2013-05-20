@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class user extends CI_Controller {
- 
+
   function __construct()
   {
     parent::__construct();
@@ -17,14 +17,14 @@ class user extends CI_Controller {
       $this->session->set_userdata(array('login_flag' => 0));
     }
     $this->load->model('settings_model', 'settings');
-    $this->session->set_userdata(array('admin_controls' => FALSE, 'site_name' => $this->settings->get_site_name()));      
+    $this->session->set_userdata(array('admin_controls' => FALSE, 'site_name' => $this->settings->get_site_name()));
   }
 
   public function index()
-  {       
+  {
     redirect('user/dashboard', 'location');
   }
-  
+
   public function dashboard()
   {
     if ($this->session->userdata('login_flag') == 1 || $this->session->userdata('login_flag') == 2)
@@ -48,7 +48,7 @@ class user extends CI_Controller {
       redirect('main/login', 'location');
     }
   }
-  
+
   public function edit_profile()
   {
     if ($this->session->userdata('login_flag') == 1)
@@ -57,7 +57,7 @@ class user extends CI_Controller {
       $data['error'] = NULL;
 
       $this->form_validation->set_error_delimiters('<div class="alert alert-error"><p>', '</p></div>');
-      
+
       $user_name = $this->session->userdata('user_name');
       $this->load->model('user_model', 'user');
       $user_details = $this->user->get_userdetails($user_name);
@@ -86,13 +86,13 @@ class user extends CI_Controller {
         $data['month'] = 'January';
         $data['year'] = 1991;
       }
-      
+
       $data['hostel'] = $user_details->hostel;
       $data['roomno'] = $user_details->roomno;
       $data['address'] = $user_details->address;
       $data['contact'] = $user_details->contact;
       $data['email'] = $user_details->email;
-      
+
       if ($this->form_validation->run('user/profile') == FALSE)
       {
         $this->load->view('user/edit_profile', $data);
@@ -111,40 +111,40 @@ class user extends CI_Controller {
         if ($id_number)
           $arr_userdetails['id_number'] = $id_number;
         else
-          $arr_userdetails['id_number'] = NULL;                            
+          $arr_userdetails['id_number'] = NULL;
         if ($fullName)
           $arr_userdetails['name'] = $fullName;
         else
-          $arr_userdetails['name'] = NULL;   
+          $arr_userdetails['name'] = NULL;
         if ($nickName)
           $arr_userdetails['nick'] = $nickName;
         else
-          $arr_userdetails['nick'] = NULL;   
+          $arr_userdetails['nick'] = NULL;
         if ($dob)
           $arr_userdetails['dob'] = $dob;
         else
-          $arr_userdetails['dob'] = NULL;   
+          $arr_userdetails['dob'] = NULL;
         if ($hostel)
           $arr_userdetails['hostel'] = $hostel;
         else
-          $arr_userdetails['hostel'] = NULL;   
+          $arr_userdetails['hostel'] = NULL;
         if ($roomno)
           $arr_userdetails['roomno'] = $roomno;
         else
-          $arr_userdetails['roomno'] = NULL;   
+          $arr_userdetails['roomno'] = NULL;
         if ($address)
           $arr_userdetails['address'] = $address;
         else
-          $arr_userdetails['address'] = NULL;   
+          $arr_userdetails['address'] = NULL;
         if ($contact)
           $arr_userdetails['contact'] = $contact;
         else
-          $arr_userdetails['contact'] = NULL;   
+          $arr_userdetails['contact'] = NULL;
         if ($email)
           $arr_userdetails['email'] = $email;
         else
           $arr_userdetails['email'] = NULL;
-        
+
         /*
          * Image Uploading
          */
@@ -153,7 +153,7 @@ class user extends CI_Controller {
         $upload_config['max_width'] = '1024';
         $upload_config['max_height'] = '768';
         $upload_config['file_name'] = $user_name;
-        
+
         $this->load->library('upload', $upload_config);
         if (!$this->upload->do_upload('profile_image'))
         {
@@ -191,9 +191,9 @@ class user extends CI_Controller {
     else
     {
       redirect('main/login', 'location');
-    }   
+    }
   }
-  
+
   public function your_testimonials()
   {
     if ($this->session->userdata('login_flag') == 1 || $this->session->userdata('login_flag') == 2)
@@ -217,23 +217,14 @@ class user extends CI_Controller {
       redirect('main/login', 'location');
     }
   }
-  
-  public function search() {     
+
+  public function search() {
     if ($this->session->userdata('login_flag') == 1 || $this->session->userdata('login_flag') == 2)
     {
       $data['page_title'] = 'Search';
-      $user_name = $this->session->userdata('user_name');
       $this->load->model('user_model', 'user');
-      $search_query = $this->input->post('searchQuery');
-      if (preg_match('/[fh].+/', $search_query))
-      {
-        $type = 'id';
-      }
-      else
-      {
-        $type = 'other';
-      }
-      $search_results = $this->user->search_users($type, $search_query);
+      $search_query = $this->input->post('query');
+      $search_results = $this->user->search_users($search_query);
       $data['search_results'] = $search_results;
       $data['search_query'] = $search_query;
       $this->load->view('user/search', $data);
@@ -241,36 +232,48 @@ class user extends CI_Controller {
     else
     {
       redirect('main/login', 'location');
-    }         
+    }
   }
-  
+
   public function profile($query)
   {
-    if ($this->session->userdata('login_flag') == 1 || $this->session->userdata('login_flag') == 2) {
+    if ($this->session->userdata('login_flag') == 1 || $this->session->userdata('login_flag') == 2)
+    {
       $this->load->model('user_model', 'user');
       $this->load->model('testimonial_model', 'testimonial');
       $user_name = $this->session->userdata('user_name');
       $user_id = $this->user->get_userdetails_id($user_name);
-      if ($query == 'me') {
+      if ($query == 'me' || $query == $user_name)
+      {
         $id = $user_id;
         $data['add_testimonial_flag'] = FALSE;
       }
-      else {
+      else
+      {
         $id = $query;
         $data['to_id'] = $id;
         $data['add_testimonial_flag'] = TRUE;
       }
       $data['testimonials'] = $this->testimonial->show_testimonials($id);
       $user_details = $this->user->get_userdetails($id, 'id');
-      $data['page_title'] = $user_details->name;
-      $data['user_details'] = $user_details;
+      if ($user_details)
+      {
+        $data['page_title'] = $user_details->name;
+        $data['user_details'] = $user_details;
+      }
+      else
+      {
+        $data['page_title'] = 'User does not exist';
+        $data['user_details'] = FALSE;
+      }
       $this->load->view('user/profile', $data);
     }
-    else {
+    else
+    {
       redirect('main/login', 'location');
     }
   }
-  
+
   public function verify($verification_key)
   {
     $this->load->model('user_model', 'user');
@@ -286,11 +289,11 @@ class user extends CI_Controller {
       $this->load->view('messages/account_verification_problem', $data);
     }
   }
-  
+
   public function change_password()
-  {      
+  {
     if ($this->session->userdata('login_flag') == 1)
-    {    
+    {
       if ($this->form_validation->run('standard/change_password') == FALSE)
       {
         redirect('user/edit_profile', 'location');
@@ -310,11 +313,11 @@ class user extends CI_Controller {
     else
     {
       redirect('main/login', 'location');
-    }   
+    }
   }
-  
+
   public function export()
-  { 
+  {
     if ($this->session->userdata('login_flag'))
     {
       $this->load->model('user_model', 'user');
@@ -325,11 +328,11 @@ class user extends CI_Controller {
     else
     {
       redirect('404', 'location');
-    }     
+    }
   }
 
   public function logout()
-  { 
+  {
     if ($this->session->userdata('logged_in'))
     {
       $this->simpleloginsecure->logout();
@@ -340,7 +343,7 @@ class user extends CI_Controller {
     else
     {
       redirect('main/login', 'location');
-    }      
+    }
   }
 
 }
