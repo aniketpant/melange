@@ -198,4 +198,10 @@ class User_model extends CI_Model {
     echo query_to_csv($result, TRUE, 'melange_testimonials_'.date('d_m_Y').'.csv');
   }
 
+  function count_users()
+  {
+    $result = $this->db->count_all('user_master');
+    return $result;
+  }
+
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title><?php echo $page_title; ?> &mdash; <?php echo $this->session->userdata('site_name'); ?></title>
-  
+
   <link rel="icon" type="favicon" href="<?php echo base_url(); ?>public/img/favicon.ico"/>
   <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>public/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>public/css/font-awesome.min.css">
@@ -22,7 +22,7 @@
   <div class="container">
     <header class="row" role="banner">
       <div class="span4">
-        <h1><a href="<?php echo site_url(); ?>"><?php echo $this->session->userdata('site_name'); ?></a></h1>
+        <h1><a href="<?php echo site_url(); ?>">Melange</a></h1>
       </div>
       <div class="span8">
         <nav class="navbar" role="navigation">

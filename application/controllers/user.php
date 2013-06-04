@@ -203,8 +203,9 @@ class user extends CI_Controller {
       $this->load->model('testimonial_model', 'testimonial');
       $user_name = $this->session->userdata('user_name');
       $user_id = $this->user->get_userdetails_id($user_name);
-      $arr_testimonials['public'] = $this->testimonial->show_testimonials($user_id, 'public');
-      $arr_testimonials['private'] = $this->testimonial->show_testimonials($user_id, 'private');
+      $arr_testimonials['public'] = $this->testimonial->get_testimonials_for($user_id, 'public');
+      $arr_testimonials['private'] = $this->testimonial->get_testimonials_for($user_id, 'private');
+      $arr_testimonials['written_by_you'] = $this->testimonial->get_testimonials_by($user_id);
       $data['testimonials'] = $arr_testimonials;
       $this->load->view('user/your_testimonials', $data);
     }
@@ -254,7 +255,7 @@ class user extends CI_Controller {
         $data['to_id'] = $id;
         $data['add_testimonial_flag'] = TRUE;
       }
-      $data['testimonials'] = $this->testimonial->show_testimonials($id);
+      $data['testimonials'] = $this->testimonial->get_testimonials_for($id);
       $user_details = $this->user->get_userdetails($id, 'id');
       if ($user_details)
       {

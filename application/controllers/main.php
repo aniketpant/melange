@@ -11,8 +11,11 @@ class Main extends CI_Controller {
 
   public function index()
   {
-    $this->output->cache(3600);
     $data['page_title'] = 'Home';
+    $this->load->model('testimonial_model', 'testimonial');
+    $this->load->model('user_model', 'user');
+    $data['testimonial_count'] = $this->testimonial->count_published();
+    $data['user_count'] = $this->user->count_users();
     $this->load->view('standard/main', $data);
   }
 

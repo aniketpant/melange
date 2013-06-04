@@ -34,10 +34,12 @@
       <dt>Email</dt>
       <dd><?php echo $user_details->email; ?></dd>
     </dl>
-
+    <?php if (!$add_testimonial_flag) { ?>
+    <p><?php echo anchor('user/edit_profile', 'Edit Your Profile', array('class' => 'btn btn-info')); ?></p>
+    <?php } ?>
   </div>
 
-  <div id="testimonials">
+  <div id="testimonials" class="span8">
     <?php if (empty($testimonials)) { ?>
     <p>No testimonials found. Be the first to write something.</p>
     <?php
@@ -54,7 +56,7 @@
   <?php } ?>
 </div>
 <?php if ($add_testimonial_flag) { ?>
-<div id="add_testimonial">
+<div id="add_testimonial" class="span8">
   <?php
   echo form_open('testimonials/add_testimonial/'.$to_id);
   ?>
@@ -85,18 +87,16 @@
       </div>
     </div>
     <?php } ?>
-    <?php if (!$add_testimonial_flag) { ?>
-    <p><?php echo anchor('user/edit_profile', 'Edit Your Profile', array('class' => 'btn btn-info')); ?></p>
-    <?php } ?>
-
-  </section>
-
-  <?php } else { ?>
-  <div class="alert">
-    <p>Sorry, User does not exist.</p>
-    <p>Please search for someone else.</p>
-    <?php echo anchor('user/dashboard', 'Return to dashboard'); ?>
   </div>
-  <?php } ?>
+</div>
+</section>
+
+<?php } else { ?>
+<div class="alert">
+  <p>Sorry, User does not exist.</p>
+  <p>Please search for someone else.</p>
+  <?php echo anchor('user/dashboard', 'Return to dashboard'); ?>
+</div>
+<?php } ?>
 
 <?php include 'application/views/inc/footer.php'; ?>

@@ -14,20 +14,20 @@ if ($this->session->userdata('admin_controls'))
       2 => 'Logout'
       );
   }
-  else 
+  else
   {
     $links = array(
       0 => site_url().'admin',
       1 => site_url().'admin/login'
       );
-    $links_text = array(        
+    $links_text = array(
       0 => 'Home',
       1 => 'Login'
       );
   }
 }
 else
-{  
+{
   if ($this->session->userdata('login_flag') == 1)
   {
     $links = array(
@@ -39,9 +39,9 @@ else
       );
     $links_text = array(
       0 => 'Dashboard',
-      1 => 'Edit Profile',
-      2 => 'Your Profile',
-      3 => 'Your Testimonials',
+      1 => 'Settings',
+      2 => 'Profile',
+      3 => 'Testimonials',
       4 => 'Logout'
       );
   }
@@ -64,7 +64,7 @@ else
       2 => site_url().'main/login'
       );
 
-    $links_text = array(        
+    $links_text = array(
       0 => 'Home',
       1 => 'Register',
       2 => 'Login'
