@@ -9,7 +9,7 @@
   </p>
 
   <div id="public" class="span8">
-    <h3>Your public testimonials</h2>
+    <h3>Your public testimonials</h3>
       <?php if (empty($testimonials['public'])) { ?>
       <p>No testimonials found.</p>
       <?php
@@ -32,7 +32,7 @@
   </div>
 
   <div id="private" class="span8">
-    <h3>Your private testimonials</h2>
+    <h3>Your private testimonials</h3>
       <?php if (empty($testimonials['private'])) { ?>
       <p>No testimonials found.</p>
       <?php
@@ -55,7 +55,7 @@
   </div>
 
   <div id="written_by_you" class="span8">
-    <h3>Testimonials written by you</h2>
+    <h3>Testimonials written by you</h3>
       <?php if (empty($testimonials['written_by_you'])) { ?>
       <p>No testimonials found.</p>
       <?php
